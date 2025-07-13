@@ -1,0 +1,43 @@
+from machine import Pin, ADC, RTC
+import time
+
+# Initialize components
+pir_sensor = Pin(27, Pin.IN)
+buzzer = Pin(26, Pin.OUT)
+ir_sensor = Pin(25, Pin.IN)
+led = Pin(23, Pin.OUT)
+rain_sensor = ADC(Pin(32))
+moisture_sensor = ADC(Pin(34))
+water_pump = Pin(22, Pin.OUT)
+limit_switch = Pin(21, Pin.IN, Pin.PULL_DOWN)
+
+# Monitor sensors
+while True:
+    # Theft Detection
+    if 0 <= time.localtime()[3] <= 7 and pir_sensor.value():
+        buzzer.value(1)
+        time.sleep(2)
+        buzzer.value(0)
+
+    # Person Enters Room
+    led.value(ir_sensor.value())
+
+    # Rain Alert
+    if rain_sensor.read() < 500:  # Adjust threshold
+        buzzer.value(1)
+    else:
+        buzzer.value(0)
+
+    # Automatic Plant Watering
+    if moisture_sensor.read() < 300:  # Adjust threshold
+        water_pump.value(1)
+    else:
+        water_pump.value(0)
+
+    # Door Closure
+    if not limit_switch.value():
+        buzzer.value(1)
+    else:
+        buzzer.value(0)
+
+    time.sleep(0.1)
