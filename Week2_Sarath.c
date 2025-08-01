@@ -87,10 +87,10 @@ void display_student(student *students, int n) {
         student *s = &students[i];
 
         printf("Name: %s,", s->name);
-        printf("Age: %d,", s->age);
-        printf("Grade: %s,", enum_to_str_grade(s->grade));
-        printf("Major: %s,", enum_to_str_major(s->major));
-        printf("Address: %s, %s, %s \n", s->addr.street, s->addr.city, s->addr.zip);
+        printf(" Age: %d,", s->age);
+        printf(" Grade: %s,", enum_to_str_grade(s->grade));
+        printf(" Major: %s,", enum_to_str_major(s->major));
+        printf(" Address: %s, %s, %s \n", s->addr.street, s->addr.city, s->addr.zip);
     }
 }
 void mem_free(student *students, int n) {
@@ -103,7 +103,7 @@ void mem_free(student *students, int n) {
     free(students);
     return;
 }
-void *create_student(student *new_student) {
+void create_student(student *new_student) {
         new_student->name = (char *)malloc(MAX_NAME_LEN * sizeof(char));
         new_student->age = 0;
         new_student->addr.street = (char *)malloc(MAX_STREET_LEN * sizeof(char));   
